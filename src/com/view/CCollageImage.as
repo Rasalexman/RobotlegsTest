@@ -13,25 +13,16 @@ package com.view
 		// PRIVATE SECTION 
 		//
 		//--------------------------------------------------------------------------
-		private var	_mBitmap:Bitmap;		// CURRENT BTM IMG
+		protected var	_mBitmap		:Bitmap,		// CURRENT BTM IMG
+						_mImageType		:String;		// Image TYPE HOR / VERT
 		
-		public function CCollageImage(image:Bitmap) {
+		public function CCollageImage(image:Bitmap, type:String = "") {
 			super();
 			mouseChildren = false;
 			buttonMode = true;
 			_mBitmap = image;
-			scaleImg();
+			_mImageType = type;
 			this.addChild(_mBitmap);
-		}
-	
-		protected function scaleImg():void{
-			_mBitmap.width=CConst.DEFAULT_CELL_WIDTH;
-			_mBitmap.scaleY=_mBitmap.scaleX;
-			
-			if(_mBitmap.height>CConst.DEFAULT_CELL_HEIGHT){
-				_mBitmap.height=CConst.DEFAULT_CELL_HEIGHT;
-				_mBitmap.scaleX=_mBitmap.scaleY;
-			}
 		}
 		
 		//--------------------------------------------------------------------------
@@ -39,6 +30,8 @@ package com.view
 		// PUBLIC SECTION 
 		//
 		//--------------------------------------------------------------------------
+		public function get view():Sprite{ return this; }
+		
 		public function getXOVByIndex(ind:int):Number{
 			return int(ind % CConst.COLUMN) * CConst.DEFAULT_CELL_WIDTH + ((CConst.DEFAULT_CELL_WIDTH - this.width)>>1);
 		}

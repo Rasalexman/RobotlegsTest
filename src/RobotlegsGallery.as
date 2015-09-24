@@ -4,6 +4,8 @@ package
 	
 	import flash.display.Sprite;
 	import flash.events.Event;
+	import flash.system.LoaderContext;
+	import flash.system.Security;
 	
 	[SWF(width="800", height="500", frameRate="60", backgroundColor="#101015")] 
 	public class RobotlegsGallery extends Sprite

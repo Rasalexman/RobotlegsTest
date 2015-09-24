@@ -7,6 +7,7 @@ package com.events
 		
 		///////// CONSTS
 		public static const IMAGE_CLICK				:String = "imageClick",
+							LOAD_DATA				:String = "dataLoading",
 							LOAD_IMAGE_COMPLETE		:String = "loadComplete",
 							CREATE_COLLAGE			:String = "createCollage",
 							ADD_IMAGE				:String = "addImage",

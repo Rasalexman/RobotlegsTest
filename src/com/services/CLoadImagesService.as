@@ -1,9 +1,5 @@
 package com.services
 {
-	import com.consts.CConst;
-	import com.events.CAppEvent;
-	import com.models.CImageModel;
-	import com.signals.CCreateImageCollageSignal;
 	import com.signals.CCompleteLoadImageSignal;
 	
 	import flash.display.Bitmap;
@@ -14,6 +10,7 @@ package com.services
 	import flash.events.IEventDispatcher;
 	import flash.events.IOErrorEvent;
 	import flash.net.URLRequest;
+	import flash.system.LoaderContext;
 
 	public class CLoadImagesService implements ILoadImagesService
 	{
@@ -28,8 +25,8 @@ package com.services
 					
 					
 		///////////------- PRIVATE SECTION
-		private var _mTotal:uint,
-					_mLoaded:uint;
+		private var _mTotal		:uint,
+					_mLoaded	:uint;
 		
 		public function CLoadImagesService() { }
 		
@@ -37,11 +34,12 @@ package com.services
 			_mLoaded = 0;
 			_mTotal = urls.length;
 			var loader:Loader;
+			var context:LoaderContext = new LoaderContext(true);
 			for (var i:int = 0; i < _mTotal; i++) {
 				loader = new Loader();
 				loader.contentLoaderInfo.addEventListener(Event.COMPLETE, onImageLoadHandler, false, 0, true);
 				loader.contentLoaderInfo.addEventListener(IOErrorEvent.IO_ERROR, onErrorHandler, false, 0, true);
-				loader.load(new URLRequest(urls[i]));
+				loader.load(new URLRequest(urls[i]), context);
 			}
 		}
 		

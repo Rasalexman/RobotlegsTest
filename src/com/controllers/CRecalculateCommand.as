@@ -1,5 +1,6 @@
 package com.controllers
 {
+	import com.consts.CConst;
 	import com.greensock.TweenLite;
 	import com.view.CCollageImage;
 	
@@ -27,8 +28,7 @@ package com.controllers
 				collageImg = CCollageImage(view.getChildAt(i));				
 				xov = collageImg.getXOVByIndex(i);
 				yov = collageImg.getYOVByIndex(i);
-				TweenLite.to(collageImg,0.2, {x:xov,
-						y:yov});
+				TweenLite.to(collageImg, CConst.ANIMATION_MOVE_TIME, {x:xov, y:yov});
 			}
 		}
 	}

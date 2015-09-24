@@ -1,5 +1,6 @@
 package com.mediators
 {
+	import com.consts.CConst;
 	import com.events.CAppEvent;
 	import com.greensock.TweenLite;
 	import com.models.CImageModel;
@@ -22,7 +23,7 @@ package com.mediators
 		//
 		//--------------------------------------------------------------------------
 		[Inject]
-		public var mImage					:CCollageImage,
+		public var mImage					:ICollageble,
 				   mAddSignal				:CAddImageSignal,
 				   mContextView				:ContextView,
 				   mImageModel				:CImageModel;
@@ -30,8 +31,8 @@ package com.mediators
 		public function CCollageImageMediator() { }
 		
 		override public function initialize():void {
-			eventMap.mapListener(mImage, MouseEvent.CLICK, clickHandler, MouseEvent, false, 0, true);
-			eventMap.mapListener(mImage, Event.ADDED_TO_STAGE, onAddedToStageHandler, Event, false, 0, true);
+			eventMap.mapListener(mImage.view, MouseEvent.CLICK, clickHandler, MouseEvent, false, 0, true);
+			eventMap.mapListener(mImage.view, Event.ADDED_TO_STAGE, onAddedToStageHandler, Event, false, 0, true);
 		}
 						
 		//--------------------------------------------------------------------------
@@ -40,23 +41,20 @@ package com.mediators
 		//
 		//--------------------------------------------------------------------------
 		private function clickHandler(event:MouseEvent):void {
-			mImage.buttonMode = mImage.mouseEnabled = false;
-			TweenLite.to(mImage, 0.5, {alpha:0, onComplete:onFadeOutCompleteHandler});
+			mImage.view.buttonMode = mImage.view.mouseEnabled = false;
+			TweenLite.to(mImage.view, CConst.ANIMATION_FADE_TIME, {alpha:0, onComplete:onFadeOutCompleteHandler});
 		}
 		private function onAddedToStageHandler(e:Event):void {
-			TweenLite.from(mImage, 0.5, {alpha:0});
+			TweenLite.from(mImage.view, CConst.ANIMATION_FADE_TIME, {alpha:0});
 		}
 		private function onFadeOutCompleteHandler(...params:Array):void{	
 			// DESTROY BITMAP
-			mImage.destroyBitmap();
+			CCollageImage(mImage).destroyBitmap();
 			// SEND SIGNALS
 			mAddSignal.dispatch(CAppEvent.ADD_IMAGE);
 			
-			// ДЛЯ СТАНДАРТНОЙ МОДЕЛИ СОБЫТИЙ 
-			//eventDispatcher.dispatchEvent(new CAppEvent(CAppEvent.ADD_IMAGE));
-			
 			// REMOVE AND DESTROY 
-			mContextView.view.removeChild(mImage);						
+			mContextView.view.removeChild(mImage.view);						
 		}
 		
 		//--------------------------------------------------------------------------
@@ -65,8 +63,8 @@ package com.mediators
 		//
 		//--------------------------------------------------------------------------
 		override public function destroy():void{
-			eventMap.unmapListener(mImage, MouseEvent.CLICK, clickHandler);
-			eventMap.unmapListener(mImage, Event.ADDED_TO_STAGE, onAddedToStageHandler);
+			eventMap.unmapListener(mImage.view, MouseEvent.CLICK, clickHandler);
+			eventMap.unmapListener(mImage.view, Event.ADDED_TO_STAGE, onAddedToStageHandler);
 			
 			mImage = null;
 			mImageModel = null;

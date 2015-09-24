@@ -18,7 +18,7 @@ package com.controllers
 		public function CStartLoadImagesCommand()	{ }
 		
 		override public function execute():void {
-			//trace("CLoadImagesCommand execute event",mSignalUrlsParam);
+			//trace("CStartLoadImagesCommand execute event",mSignalUrlsParam);
 			mLoadImageService.loadImages(mSignalUrlsParam);
 		}
 	}
